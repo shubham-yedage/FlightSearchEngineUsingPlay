@@ -1,5 +1,4 @@
 project/*
-conf/routes
 conf/application.conf
 logs/*
 public/bower.json
