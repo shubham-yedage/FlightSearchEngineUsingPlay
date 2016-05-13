@@ -1,8 +1,8 @@
-
 angular.module('myApp').controller('searchFlights', function($scope,$http) {
 $scope.flights=[];
 $scope.flight={};
-    $scope.getflights = function(person){
+//$scope.mydate="flight.date | date : 'dd/MM/yyyy'";
+    $scope.getflights = function(flight){
     $http({
         method: 'POST',
         url: 'http://localhost:9000/homepage',
@@ -13,13 +13,15 @@ $scope.flight={};
                 str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                 return str.join("&");
             },
-        data: {name: flight}
+        data: {
+        deploc: flight.dep,
+        arrloc: flight.arr,
+        date: flight.mydate,
+        choice: flight.choice
+        },
     }).success(
                 function(result){
-                    $scope.flights.push(flight);
-                    $scope.flight={};
+                    alert("done")
                 });
     };
-
-
 });

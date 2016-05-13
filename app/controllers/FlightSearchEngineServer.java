@@ -20,10 +20,11 @@ public class FlightSearchEngineServer {
 			form.put(key, stringMap.get(key)[0]);
 		}
 		
-		String depLoc=form.get("depLoc");
-		String arrLoc=form.get("arrLoc");
-		String flightDate=form.get("flightdate");
-		int choice=1;
+		String depLoc=form.get("deploc");
+		String arrLoc=form.get("arrloc");
+		String flightDate=form.get("date");
+		String	stringChoice=form.get("choice");
+		int choice= Integer.parseInt(stringChoice);
 		SearchFlights sf;
 		//--------Loading resources
 		URL resource = FlightSearchEngineServer.class.getClassLoader()
