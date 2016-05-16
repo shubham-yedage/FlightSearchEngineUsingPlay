@@ -1,8 +1,16 @@
-angular.module('myApp').controller('searchFlights', function($scope,$http) {
+angular.module('myApp').controller('searchFlights', function($scope,$http, $filter) {
 $scope.flights=[];
 $scope.flight={};
-//$scope.mydate="flight.date | date : 'dd/MM/yyyy'";
+
     $scope.getflights = function(flight){
+
+   $http.get('http://localhost:9000/headers').then(function success(data) {
+        $scope.headers=data.data;
+        },
+        function error(response) {
+        }
+    );
+
     $http({
         method: 'POST',
         url: 'http://localhost:9000/homepage',
@@ -16,12 +24,14 @@ $scope.flight={};
         data: {
         deploc: flight.dep,
         arrloc: flight.arr,
-        date: flight.mydate,
-        choice: flight.choice
+        date: $filter('date')(flight.date, "dd/MM/yyyy"),
+        sortchoice: flight.choice,
+        connflightstatus: flight.connFlight
         },
     }).success(
                 function(result){
-                    alert("done")
+                    $scope.flights=result;
+                    $scope.flight={};
                 });
     };
 });

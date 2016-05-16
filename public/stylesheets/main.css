@@ -1,0 +1,21 @@
+{box-sizing=border-box;}
+.app-body {
+     background-color: lightblue;
+}
+.container-fluid{
+margin: 200px 0 0 200px;
+width:90%
+}
+.first-header{
+display:inline-block;
+background-color:lightgreen;
+color:purple;
+}
+.row{
+margin-top: 20px;
+text: black;
+font-weight: bold;
+}
+.button{
+background-color=red;
+}

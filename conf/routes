@@ -4,6 +4,7 @@
 
 # Home page
 GET     /homepage                   controllers.Assets.at(path="/public", file="flighthomepage.html")
+GET     /headers                   controllers.Application.getHeaders()
 POST    /homepage                   controllers.Application.index()
 
 # Map static resources from the /public folder to the /assets URL path

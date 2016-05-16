@@ -23,16 +23,6 @@ public class SearchFlights {
 	public SearchFlights() {
 	}
 
-	public String headers = "";
-
-	public void setHeaders(String headers) {
-		this.headers = headers;
-	}
-
-	public String getHeaders() {
-		return headers;
-	}
-
 	private Map<Integer, Comparator<Flight>> sorter = new HashMap<>();
 
 	public SearchFlights(List<String> path,
@@ -48,22 +38,19 @@ public class SearchFlights {
 	}
 
 	public List<Flight> getFlight(String depLoc, String arrLoc,
-			String flightDate, int choice) {
-		try {
-			for (String path : listPath)
-				setHeaders(new BufferedReader(new FileReader(path)).readLine());
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+								  String flightDate, int choice, String connFlightStatus) throws FileNotFoundException, IOException {
+
+			for (String path : listPath) {
+				new BufferedReader(new FileReader(path)).readLine();
+			}
 		List<ConnectingFlight> flList1 = new SearchDirectFLights(listPath,
 				new HashMap<Integer, Comparator<Flight>>()).getFlights(depLoc,
 				arrLoc, flightDate);
-		flList1.addAll(new SearchConnectingFlights(listPath,
-				new HashMap<Integer, Comparator<Flight>>()).getFlights(depLoc,
-				arrLoc, flightDate));
-
+		if(connFlightStatus.equals("true")) {
+			flList1.addAll(new SearchConnectingFlights(listPath,
+					new HashMap<Integer, Comparator<Flight>>()).getFlights(depLoc,
+					arrLoc, flightDate));
+		}
 		List<ConnectingFlight> flList = sortByPreference(flList1, choice);
 		FinalList fl=new FinalList();		
 		List<Flight> flList2=fl.getFinalFlightList(flList);
@@ -79,5 +66,14 @@ public class SearchFlights {
 		}
 		Collections.sort(flList, flightComparator);
 		return flList;
+	}
+
+	public String readHeaders() throws IOException {
+		String s="";
+		for (String path : listPath) {
+			BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
+			s = bufferedReader.readLine();
+		}
+			return s;
 	}
 }

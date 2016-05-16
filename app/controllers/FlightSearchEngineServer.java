@@ -1,42 +1,64 @@
 package controllers;
 
 import models.Flight;
-import models.SearchFlight;
 import utilities.SearchFlights;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import static play.mvc.Results.ok;
 
 public class FlightSearchEngineServer {
 
+    public static SearchFlights sf;
 
-	public static List<Flight> createFlightObject(Map<String, String[]> stringMap) {
-	Map<String, String> form=new HashMap<>();
+    public static List<Flight> createFlightObject(Map<String, String[]> stringMap) throws IOException{
+        Map<String, String> form = new HashMap<>();
 
-		for(String key: stringMap.keySet())
-		{
-			form.put(key, stringMap.get(key)[0]);
-		}
-		
-		String depLoc=form.get("deploc");
-		String arrLoc=form.get("arrloc");
-		String flightDate=form.get("date");
-		String	stringChoice=form.get("choice");
-		int choice= Integer.parseInt(stringChoice);
-		SearchFlights sf;
-		//--------Loading resources
-		URL resource = FlightSearchEngineServer.class.getClassLoader()
-				.getResource("resources");
-		File dir = new File(resource.getPath());
-		List<String> path = new ArrayList<>();
-		for (File f : dir.listFiles()) {
-			path.add(f.getAbsolutePath());
-		}
-		//---------get Flights
-		sf = new SearchFlights(path, new HashMap<Integer, Comparator<Flight>>());
-		return sf.getFlight(depLoc, arrLoc, flightDate,
-				choice);
-	}
+        for (String key : stringMap.keySet()) {
+            form.put(key, stringMap.get(key)[0]);
+        }
+
+        String depLoc = form.get("deploc");
+        String arrLoc = form.get("arrloc");
+        String flightDate = form.get("date");
+        String stringChoice = form.get("sortchoice");
+        int choice = Integer.parseInt(stringChoice);
+        String connFlightStatus=form.get("connflightstatus");
+
+        //--------Loading resources
+        ClassLoader loader = FlightSearchEngineServer.class.getClassLoader();
+        URL resource = loader.getResource("models/resources");
+        File dir = new File(resource.getPath());
+        List<String> path = new ArrayList<>();
+        for (File f : dir.listFiles()) {
+            path.add(f.getAbsolutePath());
+        }
+
+        //---------get Flights
+        sf = new SearchFlights(path, new HashMap<Integer, Comparator<Flight>>());
+        List<Flight> flightList = sf.getFlight(depLoc, arrLoc, flightDate,
+                choice, connFlightStatus);
+        if(flightList.isEmpty())
+        {
+            throw new FileNotFoundException("No records Found");
+        }
+
+        return flightList;
+    }
+
+    public static String getFlightHeaders() throws IOException {
+        //Load Resources----
+        ClassLoader loader = FlightSearchEngineServer.class.getClassLoader();
+        URL resource = loader.getResource("models/resources");
+        File dir = new File(resource.getPath());
+        List<String> path = new ArrayList<>();
+        for (File f : dir.listFiles()) {
+            path.add(f.getAbsolutePath());
+        }
+        sf = new SearchFlights(path, new HashMap<Integer, Comparator<Flight>>());
+        return sf.readHeaders();
+
+    }
 }
