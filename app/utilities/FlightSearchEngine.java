@@ -1,7 +1,6 @@
-package controllers;
+package utilities;
 
 import models.Flight;
-import utilities.SearchFlights;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,7 +8,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class FlightSearchEngineServer {
+public class FlightSearchEngine {
 
     public static SearchFlights sf;
 
@@ -28,7 +27,7 @@ public class FlightSearchEngineServer {
         String connFlightStatus=form.get("connflightstatus");
 
         //--------Loading resources
-        ClassLoader loader = FlightSearchEngineServer.class.getClassLoader();
+        ClassLoader loader = FlightSearchEngine.class.getClassLoader();
         URL resource = loader.getResource("models/resources");
         File dir = new File(resource.getPath());
         List<String> path = new ArrayList<>();
@@ -46,19 +45,5 @@ public class FlightSearchEngineServer {
         }
 
         return flightList;
-    }
-
-    public static String getFlightHeaders() throws IOException {
-        //Load Resources----
-        ClassLoader loader = FlightSearchEngineServer.class.getClassLoader();
-        URL resource = loader.getResource("models/resources");
-        File dir = new File(resource.getPath());
-        List<String> path = new ArrayList<>();
-        for (File f : dir.listFiles()) {
-            path.add(f.getAbsolutePath());
-        }
-        sf = new SearchFlights(path, new HashMap<Integer, Comparator<Flight>>());
-        return sf.readHeaders();
-
     }
 }

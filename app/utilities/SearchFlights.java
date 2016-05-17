@@ -67,13 +67,4 @@ public class SearchFlights {
 		Collections.sort(flList, flightComparator);
 		return flList;
 	}
-
-	public String readHeaders() throws IOException {
-		String s="";
-		for (String path : listPath) {
-			BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
-			s = bufferedReader.readLine();
-		}
-			return s;
-	}
 }

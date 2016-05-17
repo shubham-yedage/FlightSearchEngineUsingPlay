@@ -1,15 +1,9 @@
 angular.module('myApp').controller('searchFlights', function($scope,$http, $filter) {
 $scope.flights=[];
 $scope.flight={};
+$scope.connflight={};
 
     $scope.getflights = function(flight){
-
-   $http.get('http://localhost:9000/headers').then(function success(data) {
-        $scope.headers=data.data;
-        },
-        function error(response) {
-        }
-    );
 
     $http({
         method: 'POST',
@@ -32,6 +26,11 @@ $scope.flight={};
                 function(result){
                     $scope.flights=result;
                     $scope.flight={};
-                });
+                    $scope.error = "";
+    }).error(
+                function(data,statusText,headers)
+                    {
+                        $scope.error = "No Records Found! Please Try Again! Error Status:"+statusText;
+                    });
     };
 });
