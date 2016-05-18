@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -105,11 +104,8 @@ public class SearchConnectingFlights extends SearchFlights implements
 		return finalConnFliightList;
 	}
 
-	private float addTo(float var1, float var2)
-	{
-		BigDecimal bd = new BigDecimal(Float.toString(var1+var2));
-		bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
-		return bd.floatValue();
+	private float addTo(float var1, float var2) {
+		return var1 + var2;
 	}
 
 }
