@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class FlightSearchEngine {
+public class FlightFormParametrsExtracter {
 
     public static SearchFlights sf;
 
@@ -27,7 +27,7 @@ public class FlightSearchEngine {
         String connFlightStatus=form.get("connflightstatus");
 
         //--------Loading resources
-        ClassLoader loader = FlightSearchEngine.class.getClassLoader();
+        ClassLoader loader = FlightFormParametrsExtracter.class.getClassLoader();
         URL resource = loader.getResource("models/resources");
         File dir = new File(resource.getPath());
         List<String> path = new ArrayList<>();
