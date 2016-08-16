@@ -1,5 +1,6 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import models.Flight;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -16,7 +17,8 @@ public class Application extends Controller {
         Map<String, String[]> stringMap = request().body().asFormUrlEncoded();
         try {
             List<Flight> flightList = FlightFormParametrsExtracter.createFlightObject(stringMap);
-            return ok(Json.toJson(flightList));
+            JsonNode jsonNode = Json.toJson(flightList);
+            return ok(jsonNode);
         } catch (IOException e) {
             return internalServerError(e.getMessage());
         }
