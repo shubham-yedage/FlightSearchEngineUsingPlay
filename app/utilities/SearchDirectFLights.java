@@ -27,6 +27,7 @@ public class SearchDirectFLights extends SearchFlights implements SearchFlight {
 	public List<ConnectingFlight> getFlights(String depLoc, String arrLoc, String flightDate) {
 		List<ConnectingFlight> flList = new ArrayList<>();
 		try {
+			int ip = 0;
 			for (String path : listPath) {
 				br = new BufferedReader(new FileReader(path));
 				br.readLine();
